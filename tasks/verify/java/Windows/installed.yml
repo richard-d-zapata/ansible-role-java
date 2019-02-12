@@ -1,0 +1,5 @@
+---
+- name: Verify Java is installed (Windows)
+  win_stat:
+    path: "{{ java_destination_parent_path }}\\{{ java_destination_dirname }}"
+  register: java_install_check

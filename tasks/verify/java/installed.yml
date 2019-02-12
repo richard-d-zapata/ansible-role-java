@@ -1,0 +1,12 @@
+---
+- name: Check for OS architecture specific Java installation
+  include_tasks: "{{ os_architecture }}/installed.yml"
+
+- name: Set java_installed
+  set_fact:
+    java_installed: |-
+      {%- if java_install_check.stat.exists %}
+      true
+      {%- else %}
+      false
+      {%- endif %}

@@ -1,0 +1,59 @@
+---
+- name: Ensure java_installers_path_on_target exists (Windows)
+  win_file:
+    path: "{{ java_installers_path_on_target }}"
+    state: directory
+
+- name: Check java_installers_path_on_target for installer (Windows)
+  win_find:
+    paths: "{{ java_installers_path_on_target }}"
+    recurse: false
+    patterns: "{{ java_installer_filename }}"
+  register: target_found
+
+- block:
+    - name: Find local java_installer_filename (Windows)
+      find:
+        paths: "{{ java_local_installers_path_list }}"
+        recurse: false
+        patterns: "{{ java_installer_filename }}"
+      register: local_found
+      delegate_to: 127.0.0.1
+
+    - name: DEBUG (vv) - local installer filepaths found (Windows)
+      debug:
+        var: local_found.files
+        verbosity: 2
+
+    - name: Set java_local_installer_filepath (Windows)
+      set_fact:
+        java_local_installer_filepath: "{{ (local_found.files | first).path }}"
+      when: local_found.files | length > 0
+
+    - name: INFO - java_local_installer_filepath (Windows)
+      debug:
+        var: java_local_installer_filepath
+      when: java_local_installer_filepath is defined
+
+    - name: Copy installer to target (Windows)
+      win_copy:
+        src: "{{ java_local_installer_filepath }}"
+        dest: "{{ java_installers_path_on_target }}\\{{ java_installer_filename }}"
+      when: java_local_installer_filepath is defined
+
+    - name: Attempt to download installer (Windows)
+      win_get_url:
+        url: "{{ java_installer_url_path }}/{{ java_installer_filename }}"
+        dest: "{{ java_installers_path_on_target }}"
+        # headers: "{{ java_installer_url_headers }}"
+      when: |-
+        java_local_installer_filepath is not defined or
+        not java_local_installer_filepath
+
+    - name: Check for installer in java_installers_path_on_target (Windows)
+      win_stat:
+        path: "{{ java_installers_path_on_target }}\\{{ java_installer_filename }}"
+      register: installer
+      failed_when: installer.stat.exists != true
+
+  when: target_found.files | length == 0

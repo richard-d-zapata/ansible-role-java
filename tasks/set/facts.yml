@@ -1,0 +1,24 @@
+---
+- name: Set os_architecture
+  set_fact:
+    os_architecture: |-
+      {%- if ansible_facts.os_family == "Windows" %}
+      Windows
+      {%- else %}
+      Unix
+      {%- endif %}
+
+- name: Define 'java_' facts from 'default_java_' variables
+  include_tasks: default_java_vars.yml
+
+- name: Define variables based on environment variables
+  include_tasks: env_vars.yml
+
+- name: Define java_version variables
+  include_tasks: java_version.yml
+
+- name: Define calculated variables
+  include_tasks: calculated_vars.yml
+
+- name: Define java installer variables
+  include_tasks: java_installer_vars.yml

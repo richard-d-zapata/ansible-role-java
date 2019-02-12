@@ -1,0 +1,8 @@
+---
+- name: Define OS family-specific java installer variables
+  include_tasks: "{{ ansible_facts.os_family }}/java_installer_vars.yml"
+  when: ansible_facts.os_family in ['Windows']
+
+- name: INFO - java_installer_filename
+  debug:
+    var: java_installer_filename

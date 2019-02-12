@@ -1,0 +1,5 @@
+---
+default_java_local_installer_path_env_vars:
+  - 'LOCAL_INSTALLERS_PATH'
+  - 'JAVA_LOCAL_INSTALLERS_PATH'
+default_java_local_installers_path_list: ['/Users/Shared/Installers']

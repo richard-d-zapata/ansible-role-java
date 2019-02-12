@@ -1,0 +1,34 @@
+---
+# Build the Java version string as detailed here:
+#   https://docs.oracle.com/en/java/javase/11/install/version-string-format.html
+# Note: This format is also being used for older Java versions, even though
+#       it does not match the old standard.  i.e. 1.8.0_202 -> 8.202
+
+- name: Parse java_version
+  set_fact:
+    java_version_parts:
+      feature: "{{ (java_version|string).split('.')[0] }}"
+      interim: "{{ (java_version|string).split('.')[1] | default('0') }}"
+      update: "{{ (java_version|string).split('.')[2] | default('0') }}"
+      patch: "{{ (java_version|string).split('.')[3] | default('0') }}"
+
+- name: Set java_version_string
+  set_fact:
+    java_version_string: |-
+      {%- set version_subparts = ['patch', 'update', 'interim'] -%}
+      {%- set version = { 'string': '' } -%}
+      {%- for part in version_subparts %}
+      {%-   if java_version_parts[part]|int != 0 or version.string != '' %}
+      {%-     if version.update({'string':'.' + java_version_parts[part]|string + version.string}) %}{%- endif %}
+      {%-   endif %}
+      {%- endfor %}
+      {%- if version.update({'string':java_version_parts['feature']|string + version.string}) %}{%- endif %}
+      {{ version.string }}
+
+- name: Set java_type_string
+  set_fact:
+    java_type_string: "{{ java_type | default('jdk') }}"
+# TODO: Move to OS-specific
+# - name: Set java_destination_dirname
+#   set_fact:
+#     java_destination_dirname: "{{ java_type_string }}-{{ java_version_string }}"

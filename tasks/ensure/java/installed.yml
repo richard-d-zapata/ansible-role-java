@@ -1,0 +1,6 @@
+---
+- name: Ensure Java installer has been obtained
+  include_tasks: installer/obtained.yml
+
+- name: Ensure Java install is done
+  include_tasks: install/done.yml

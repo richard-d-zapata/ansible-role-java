@@ -1,0 +1,7 @@
+---
+- name: Add Windows environment variables to java_local_installer_path_env_vars
+  set_fact:
+    java_local_installer_path_env_vars: "{{ java_local_installer_path_env_vars }} + [ '{{ item }}' ]"
+  loop:
+    - "WINDOWS_LOCAL_INSTALLERS_PATH"
+    - "JAVA_WINDOWS_LOCAL_INSTALLERS_PATH"

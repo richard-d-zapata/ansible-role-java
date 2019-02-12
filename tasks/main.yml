@@ -1,0 +1,11 @@
+---
+- include_tasks: set/facts.yml
+- include_tasks: verify/java/installed.yml
+
+- block:
+    - include_tasks: ensure/java/installed.yml
+  when: not java_installed
+
+- include_tasks: ensure/java/path/known.yml
+- include_tasks: ensure/java/version/selected.yml
+- include_tasks: report/state.yml

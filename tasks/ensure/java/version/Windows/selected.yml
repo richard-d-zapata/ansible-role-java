@@ -1,0 +1,12 @@
+---
+- name: Select java_version (Windows)
+  win_path:
+    elements:
+      - "\"{{ java_path }}\\bin\""
+
+- name: Set JAVA_HOME (Windows)
+  win_environment:
+    state: present
+    name: JAVA_HOME
+    value: '"{{ java_path }}"'
+    level: machine

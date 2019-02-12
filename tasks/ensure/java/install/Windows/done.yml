@@ -1,0 +1,6 @@
+---
+- name: Install Java (Windows)
+  win_package:
+    path: "{{ java_installers_path_on_target }}\\{{ java_installer_filename }}"
+    creates_path: "{{ java_destination_parent_path }}\\{{ java_destination_dirname }}"
+    state: present

@@ -1,0 +1,6 @@
+---
+- name: Report Java version
+  include_tasks: "{{ os_architecture }}/java_version.yml"
+
+- name: Report Java cryptography
+  include_tasks: "{{ os_architecture }}/java_crypto.yml"

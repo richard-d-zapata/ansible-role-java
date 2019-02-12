@@ -1,0 +1,14 @@
+---
+# Additional os-specific default values are found in the 'vars' section.
+# The processing of these values to function more like defaults is done
+# as described at https://www.samdarwin.com/ansible-default-vars/
+
+# TODO: Determine if JRE support is desired
+java_type: jdk
+
+# TODO: Figure out how to scrape the latest Java version as the default
+java_version: '8.202.08.2'
+
+# TODO: Support multiple Java vendors
+java_vendor: amazon
+java_installer_url_path: https://d2znqt9b1bc64u.cloudfront.net

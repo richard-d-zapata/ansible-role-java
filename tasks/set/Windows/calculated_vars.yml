@@ -1,0 +1,4 @@
+---
+- name: Set java_destination_dirname (Windows)
+  set_fact:
+    java_destination_dirname: "jdk{{ java_version_string }}"

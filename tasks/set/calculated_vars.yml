@@ -1,0 +1,4 @@
+---
+- name: Define OS family-specific calculated variables
+  include_tasks: "{{ ansible_facts.os_family }}/calculated_vars.yml"
+  when: ansible_facts.os_family in ['Windows']

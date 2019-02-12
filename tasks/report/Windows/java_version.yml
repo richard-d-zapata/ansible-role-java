@@ -1,0 +1,12 @@
+---
+- name: Get Java Version (Windows)
+  win_command: "\"{{ java_destination_parent_path }}\\{{ java_destination_dirname }}\\bin\\{{ java_binary_name }}\" -version"
+  register: java_version_result
+  changed_when: false
+
+- name: Java Version (Windows)
+  vars:
+    msg: |
+      {{ java_version_result.stderr | trim }}
+  debug:
+    msg: "{{ msg.split('\r\n')[:-1] }}"

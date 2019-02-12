@@ -1,0 +1,33 @@
+---
+- name: Define OS family-specific environment variables
+  include_tasks: "{{ ansible_facts.os_family }}/env_vars.yml"
+  when: ansible_facts.os_family in ['Windows']
+
+# - name: Define Linux environment variables
+#   include_tasks: Linux/env_vars.yml
+#   when: ansible_facts.os_family not in ['Windows', 'Darwin']
+
+- name: Set java_version from environment variable
+  set_fact:
+    java_version: "{{ lookup('env', 'JAVA_VERSION' ) }}"
+  when: |-
+    lookup('env', 'JAVA_VERSION' ) is defined and
+    lookup('env', 'JAVA_VERSION' )
+
+- name: Set java_installer_url_path from environment variable
+  set_fact:
+    java_installer_url_path: "{{ lookup('env', 'JAVA_INSTALLER_URL_PATH' ) }}"
+  when: |-
+    lookup('env', 'JAVA_INSTALLER_URL_PATH' ) is defined and
+    lookup('env', 'JAVA_INSTALLER_URL_PATH' )
+
+- name: Add paths to java_local_installers_path_list
+  set_fact:
+    java_local_installers_path_list: "[ '{{ lookup('env', item) }}' ] + {{ java_local_installers_path_list }}"
+  loop: "{{ java_local_installer_path_env_vars | flatten(levels=1) }}"
+  when: |-
+    lookup('env', item) is defined and lookup('env', item)
+
+- name: INFO - java_local_installers_path_list
+  debug:
+    var: java_local_installers_path_list
