@@ -1,0 +1,27 @@
+---
+- name: Set java_installer_prefix (Windows - Amazon)
+  set_fact:
+    java_installer_prefix: "amazon-corretto-"
+
+- name: Set java_installer_suffix (Windows - Amazon)
+  set_fact:
+    java_installer_suffix: "-windows-x64"
+
+- name: Set java_installer_ext (Windows - Amazon)
+  set_fact:
+    java_installer_ext: ".msi"
+
+- name: Set java_installer_filename (Windows - Amazon)
+  set_fact:
+    java_installer_filename: "{{ java_installer_prefix }}\
+      {{ java_version_string }}{{ java_installer_suffix }}\
+      {{ java_installer_ext }}"
+
+- name: Set java_destination_dirname (Windows - Amazon)
+  set_fact:
+    java_destination_dirname: |-
+      {%- if java_version_parts['feature'] | int > 8 %}
+      jdk{{ java_version_string }}
+      {%- else %}
+      jdk{{ java_version_legacy_medium_string }}
+      {%- endif %}

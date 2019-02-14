@@ -17,8 +17,8 @@
 - name: Define java_version variables
   include_tasks: java_version.yml
 
-- name: Define calculated variables
-  include_tasks: calculated_vars.yml
+- name: Define Java vendor variables
+  include_tasks: java_vendor_vars.yml
 
 - name: Define java installer variables
   include_tasks: java_installer_vars.yml

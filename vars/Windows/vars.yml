@@ -1,6 +1,5 @@
 ---
 default_java_installers_path_on_target: C:\Temp
-default_java_destination_parent_path: C:\Program Files\Amazon Corretto
 default_java_binary_name: java.exe
 
 # TODO: Determine which path(s) are used for Corretto

@@ -1,0 +1,10 @@
+---
+- name: Set java_destination_parent_path from defaults
+  set_fact:
+    java_destination_parent_path: "{{ java_destination_parent_paths[java_vendor] }}"
+  when: java_destination_parent_path is not defined
+
+- name: Set java_installer_url_path from defaults
+  set_fact:
+    java_installer_url_path: "{{ java_installer_url_paths[java_vendor] }}"
+  when: java_installer_url_path is not defined

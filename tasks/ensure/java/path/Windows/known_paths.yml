@@ -1,8 +1,8 @@
 ---
-- name: Get JDK directories in java_destination_parent_path (Windows)
+- name: Get Java directories in java_destination_parent_path (Windows)
   win_find:
     paths: "{{ java_destination_parent_path }}"
-    patterns: jdk*
+    patterns: ["jdk*", "java*"]
     file_type: directory
     recurse: false
   register: found_dirs
