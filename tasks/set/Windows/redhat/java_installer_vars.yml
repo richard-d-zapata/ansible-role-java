@@ -1,0 +1,7 @@
+---
+- name: Set java_installer_ext (Windows - RedHat)
+  set_fact:
+    java_installer_ext: ".msi"
+
+- name: Set legacy/modern Java installer variables (Windows - RedHat)
+  include_tasks: "{{ java_version_style }}.yml"

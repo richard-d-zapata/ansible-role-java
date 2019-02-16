@@ -15,7 +15,7 @@
   include_tasks: env_vars.yml
 
 - name: Define java_version variables
-  include_tasks: java_version.yml
+  include_tasks: java_version_strings.yml
 
 - name: Define Java vendor variables
   include_tasks: java_vendor_vars.yml

@@ -1,6 +1,6 @@
 ---
 - name: Set vendor-specific Java installer variables (Windows)
-  include_tasks: "vendor/{{ java_vendor }}.yml"
+  include_tasks: "{{ java_vendor }}/java_installer_vars.yml"
 
 - name: DEBUG - java_destination_dirname
   debug:

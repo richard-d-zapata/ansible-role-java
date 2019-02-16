@@ -1,0 +1,105 @@
+---
+- name: Set java_type_string
+  set_fact:
+    java_type_string: "{{ java_type | default('jdk') }}"
+
+# Build the Java version string as detailed here:
+#   https://docs.oracle.com/en/java/javase/11/install/version-string-format.html
+# Note: This format is also being used for older Java versions, even though
+#       it does not match the old standard.  i.e. 1.8.0_202 -> 8.202
+
+- name: Parse java_version
+  set_fact:
+    java_version_parts:
+      feature: "{{ (java_version|string).split('.')[0] }}"
+      interim: "{{ (java_version|string).split('.')[1] | default('0') }}"
+      update: "{{ (java_version|string).split('.')[2] | default('0') }}"
+      patch: "{{ (java_version|string).split('.')[3] | default('0') }}"
+
+- name: Set java_version_patch_string
+  set_fact:
+    java_version_patch_string: |-
+      {%- if java_version_parts['patch'] != '0' %}
+      .{{ java_version_parts['patch'] }}
+      {%- else %}{%- endif %}
+
+- name: Set java_version_update_string
+  set_fact:
+    java_version_update_string: |-
+      {%- if java_version_parts['update'] != '0' or java_version_patch_string != '' %}
+      .{{ java_version_parts['update'] }}
+      {%- else %}{%- endif %}
+
+- name: Set java_version_interim_string
+  set_fact:
+    java_version_interim_string: |-
+      {%- if java_version_parts['interim'] != '0' or java_version_update_string != '' %}
+      .{{ java_version_parts['interim'] }}
+      {%- else %}{%- endif %}
+
+- name: Set java_version_feature_string
+  set_fact:
+    java_version_feature_string: "{{ java_version_parts['feature'] }}"
+
+- name: Set java_version_style
+  set_fact:
+    java_version_style: |-
+      {%- if java_vendor == 'redhat' and java_version_parts['feature']|int < 9 %}
+      legacy
+      {%- else %}
+      modern
+      {%- endif %}
+
+- name: Set java_version_short_string
+  set_fact:
+    java_version_short_string: "{{ java_version_feature_string }}\
+      {{ java_version_interim_string }}"
+
+- name: Set java_version_medium_string
+  set_fact:
+    java_version_medium_string: "{{ java_version_feature_string }}\
+      {{ java_version_interim_string }}{{ java_version_update_string }}"
+
+- name: Set java_version_string
+  set_fact:
+    java_version_string: "{{ java_version_feature_string }}\
+      {{ java_version_interim_string }}{{ java_version_update_string }}\
+      {{ java_version_patch_string }}"
+
+- name: Set java_version_interim_underscore_string
+  set_fact:
+    java_version_interim_underscore_string: |-
+      {%- if java_version_parts['interim'] != '0' or java_version_update_string != '' %}
+      _{{ java_version_parts['interim'] }}
+      {%- else %}{%- endif %}
+
+- name: Set java_version_b_update_string
+  set_fact:
+    java_version_b_update_string: |-
+      {%- if java_version_parts['update'] != '0' or java_version_patch_string != '' %}
+      .b{{ java_version_parts['update'] }}
+      {%- else %}{%- endif %}
+
+- name: Set java_version_legacy_short_string
+  set_fact:
+    java_version_legacy_short_string: "1.{{ java_version_feature_string }}.0"
+
+- name: Set java_version_legacy_medium_string
+  set_fact:
+    java_version_legacy_medium_string: "{{ java_version_legacy_short_string }}\
+      {{ java_version_interim_underscore_string }}"
+
+- name: Set java_version_legacy_medium_dot_string
+  set_fact:
+    java_version_legacy_medium_dot_string: "\
+      {{ java_version_legacy_short_string }}{{ java_version_interim_string }}"
+
+- name: Set java_version_legacy_long_string
+  set_fact:
+    java_version_legacy_long_string: "{{ java_version_legacy_medium_string }}\
+      {{ java_version_b_update_string }}"
+
+- name: Set java_version_legacy_string
+  set_fact:
+    java_version_legacy_string: "{{ java_version_legacy_long_string }}\
+      {{ java_version_patch_string }}"

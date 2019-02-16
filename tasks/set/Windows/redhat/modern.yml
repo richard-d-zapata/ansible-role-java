@@ -1,0 +1,31 @@
+---
+- name: Set java_installer_prefix (Windows - RedHat - modern JDK)
+  set_fact:
+    java_installer_prefix: "java-{{ java_version_parts['feature'] }}-openjdk-"
+
+- name: Set java_installer_suffix (Windows - RedHat - modern JDK)
+  set_fact:
+    java_installer_suffix: ".windows.redhat.x86_64"
+
+- name: Set java_installer_filename (Windows - RedHat - modern JDK)
+  set_fact:
+    java_installer_filename: "{{ java_installer_prefix }}\
+      {{ java_version_string }}{{ java_installer_suffix }}{{ java_installer_ext }}"
+
+- name: Set java_version_patch_build (Windows - RedHat - modern JDK)
+  set_fact:
+    java_version_patch_build: "{{ (java_version_parts['patch']).split('-')[1] | default('') }}"
+
+- name: Set java_version_dirname_string (Windows - RedHat - modern JDK)
+  set_fact:
+    java_version_dirname_string: |-
+      {%- if java_version_patch_build == '' %}
+      {{ java_version_medium_string }}
+      {%- else %}
+      {{ java_version_medium_string }}-{{ java_version_patch_build }}
+      {%- endif %}
+
+- name: Set java_destination_dirname (Windows - RedHat - modern JDK)
+  set_fact:
+    java_destination_dirname: |-
+      java-{{ java_version_parts['feature'] }}-openjdk-{{ java_version_dirname_string }}

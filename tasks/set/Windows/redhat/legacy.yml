@@ -1,0 +1,20 @@
+---
+- name: Set java_installer_prefix (Windows - RedHat - legacy JDK)
+  set_fact:
+    java_installer_prefix: "java-{{ java_version_legacy_short_string }}-openjdk-"
+
+- name: Set java_installer_suffix (Windows - RedHat - legacy JDK)
+  set_fact:
+    java_installer_suffix: ".redhat.windows.x86_64"
+
+- name: Set java_installer_filename (Windows - RedHat - legacy JDK)
+  set_fact:
+    java_installer_filename: "{{ java_installer_prefix }}\
+      {{ java_version_legacy_string |\
+      regex_replace('^(\\d+\\.\\d+\\.\\d+)_(\\d+.*)$', '\\1.\\2') }}\
+      {{ java_installer_suffix }}{{ java_installer_ext }}"
+
+- name: Set java_destination_dirname (Windows - RedHat - legacy JDK)
+  set_fact:
+    java_destination_dirname: "java-{{ java_version_legacy_short_string }}\
+      -openjdk-{{ java_version_legacy_medium_dot_string }}"
