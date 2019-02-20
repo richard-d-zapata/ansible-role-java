@@ -9,14 +9,6 @@ Currently, this role supports installation of OpenJDK (of the Amazon Corretto
 or RedHat flavor) on Windows. As these seem to be new products, the versions of
 JDK that can be installed are limited.
 
-## TODO
-
-    pip install "pywinrm>=0.2.2"
-
-Version
-
-    1.8.0.201-2.b09 -> 8.201-2.09
-
 ## Java Versions
 
 Java version numbers seem to be all over the place between different vendors
