@@ -1,5 +1,13 @@
 ---
 default_java_local_installer_path_env_vars:
-  - 'LOCAL_INSTALLERS_PATH'
-  - 'JAVA_LOCAL_INSTALLERS_PATH'
-default_java_local_installers_path_list: ['/Users/Shared/Installers']
+  - "LOCAL_INSTALLERS_PATH"
+  - "JAVA_LOCAL_INSTALLERS_PATH"
+default_java_local_installers_path_list: ["/Users/Shared/Installers"]
+
+default_java_installer_url_paths:
+  amazon:
+    "8": https://d2znqt9b1bc64u.cloudfront.net
+    "11": https://d2jnoze5tfhthg.cloudfront.net
+  redhat:
+    "8": ERROR - you must supply your own installer or URL!
+    "11": ERROR - you must supply your own installer or URL!

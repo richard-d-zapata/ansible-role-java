@@ -2,6 +2,6 @@
 default_java_installers_path_on_target: C:\Temp
 default_java_binary_name: java.exe
 
-# TODO: Determine which path(s) are used for Corretto
-# default_java_legacy_security_subpath: \jre\lib\security
-default_java_modern_security_subpath: \conf\security
+default_java_destination_parent_paths:
+  amazon: C:\Program Files\Amazon Corretto
+  redhat: C:\Program Files\RedHat

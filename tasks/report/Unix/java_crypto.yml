@@ -1,0 +1,16 @@
+---
+- name: Verify Java cryptography unlimited strength status (Unix)
+  shell: 'jrunscript -e "exit (println(javax.crypto.Cipher.getMaxAllowedKeyLength(''AES'') >= 256));"'
+  register: crypto_enabled
+  changed_when: false
+
+- name: Java Cryptography unlimited strength status (Unix)
+  vars:
+    msg: |-
+      {% if 'true' in crypto_enabled.stdout %}
+      Java Cryptography unlimited strength is enabled
+      {% else %}
+      Java Cryptography unlimited strength is NOT enabled
+      {% endif %}
+  debug:
+    msg: "{{ msg.split('\n')[:-1] }}"

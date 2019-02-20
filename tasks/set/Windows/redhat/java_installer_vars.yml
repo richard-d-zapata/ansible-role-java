@@ -3,7 +3,7 @@
   set_fact:
     java_installer_ext: ".msi"
 
-- name: Set java_version_style
+- name: Set java_version_style (Windows - RedHat)
   set_fact:
     java_version_style: |-
       {%- if java_vendor == 'redhat' and java_version_parts['java_feature']|int < 9 %}

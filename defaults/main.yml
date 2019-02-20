@@ -7,14 +7,6 @@
 java_type: jdk
 
 # TODO: Figure out how to scrape the latest Java version as the default
-java_version: "11.0.2.9.1" # Note: RedHat -> "8.201-2.09"
+java_version: "11.0.2.9.1"
 
 java_vendor: amazon
-
-java_installer_url_paths:
-  amazon: https://d2znqt9b1bc64u.cloudfront.net
-  redhat: ERROR - you must supply your own installer!
-
-java_destination_parent_paths:
-  amazon: C:\Program Files\Amazon Corretto
-  redhat: C:\Program Files\RedHat

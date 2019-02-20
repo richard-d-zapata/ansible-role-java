@@ -1,0 +1,5 @@
+---
+- name: Unsupported (Darwin - RedHat)
+  debug:
+    msg: "ERROR - no RedHat installer is available for macOS/Darwin"
+  failed_when: true

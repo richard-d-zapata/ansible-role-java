@@ -1,0 +1,12 @@
+---
+- name: Get Installed Java Version (Unix)
+  command: java -version
+  register: java_version_result
+  changed_when: false
+
+- name: Java Version (Unix)
+  vars:
+    msg: |
+      {{ java_version_result.stderr | trim }}
+  debug:
+    msg: "{{ msg.split('\n')[:-1] }}"

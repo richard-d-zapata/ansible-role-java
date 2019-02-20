@@ -198,6 +198,47 @@ If the playbook itself contains the version of Java, it might look like:
 
     ansible-playbook k2o-java-11.0.2.yml
 
+## Role Testing
+
+### Pre-requisites
+
+[Molecule](https://molecule.readthedocs.io/en/latest/) is being used for
+testing this role.
+
+_Note: Windows testing with Molecule is not actively supported, so testing for_
+_Windows has been omitted._
+
+You will need to install molecule and python support modules before running
+the role tests:
+
+    pip install molecule
+    pip install docker-py
+
+You also need to install the following before running the vagrant role tests:
+
+    pip install python-vagrant
+
+### Java Versions in Molecule tests
+
+To run the molecule tests for a particular Java version, you will need to
+provide the `JAVA_VERSION` as an environment variable and ensure the installer
+is located locally in the appropriate ...`INSTALLERS_PATH` location, if
+necessary. See examples, below.
+
+It is also possible to edit the `molecule.yml` file for a scenario and
+specify the java_version like this:
+
+    provisioner:
+      name: ansible
+      env:
+        JAVA_VERSION: 8.202.08.2
+
+### macOS Tests
+
+macOS 10.13, 10.12, 10.11 via vagrant:
+
+    molecule test --scenario-name macos-vagrant
+
 ## License
 
 MIT

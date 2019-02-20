@@ -1,0 +1,4 @@
+---
+- name: Install Java (Darwin)
+  become: true
+  command: 'installer -pkg "{{ java_installers_path_on_target }}/{{ java_installer_filename }}" -target /'
