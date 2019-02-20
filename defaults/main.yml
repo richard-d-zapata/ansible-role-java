@@ -7,9 +7,8 @@
 java_type: jdk
 
 # TODO: Figure out how to scrape the latest Java version as the default
-java_version: "8.202.08.2" # Note: RedHat -> "8.201-2.09"
+java_version: "11.0.2.9.1" # Note: RedHat -> "8.201-2.09"
 
-# TODO: Support multiple Java vendors (amazon, redhat)
 java_vendor: amazon
 
 java_installer_url_paths:

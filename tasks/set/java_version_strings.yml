@@ -11,95 +11,114 @@
 - name: Parse java_version
   set_fact:
     java_version_parts:
-      feature: "{{ (java_version|string).split('.')[0] }}"
-      interim: "{{ (java_version|string).split('.')[1] | default('0') }}"
-      update: "{{ (java_version|string).split('.')[2] | default('0') }}"
-      patch: "{{ (java_version|string).split('.')[3] | default('0') }}"
+      java_feature: "{{ (java_version|string).split('.')[0] }}"
+      java_interim: "{{ (java_version|string).split('.')[1] | default(omit) }}"
+      java_update: "{{ (java_version|string).split('.')[2] | default(omit) }}"
+      java_patch: "{{ (java_version|string).split('.')[3] | default(omit) }}"
+      java_build: "{{ (java_version|string).split('.')[4] | default(omit) }}"
 
-- name: Set java_version_patch_string
-  set_fact:
-    java_version_patch_string: |-
-      {%- if java_version_parts['patch'] != '0' %}
-      .{{ java_version_parts['patch'] }}
-      {%- else %}{%- endif %}
+- debug:
+    var: java_version_parts
+    verbosity: "2"
 
-- name: Set java_version_update_string
+- name: Set java_version_java_build_substring
   set_fact:
-    java_version_update_string: |-
-      {%- if java_version_parts['update'] != '0' or java_version_patch_string != '' %}
-      .{{ java_version_parts['update'] }}
-      {%- else %}{%- endif %}
+    java_version_java_build_substring: ".{{ java_version_parts['java_build'] }}"
+    java_version_java_build_underscore_substring: "_{{ java_version_parts['java_build'] }}"
+  when: java_version_parts['java_build'] is defined
 
-- name: Set java_version_interim_string
+- name: Set java_version_java_patch_substring
   set_fact:
-    java_version_interim_string: |-
-      {%- if java_version_parts['interim'] != '0' or java_version_update_string != '' %}
-      .{{ java_version_parts['interim'] }}
-      {%- else %}{%- endif %}
+    java_version_java_patch_substring: ".{{ java_version_parts['java_patch'] }}"
+    java_version_java_patch_underscore_substring: "_{{ java_version_parts['java_patch'] }}"
+  when: java_version_parts['java_patch'] is defined
 
-- name: Set java_version_feature_string
+- name: Set java_version_java_update_substring
   set_fact:
-    java_version_feature_string: "{{ java_version_parts['feature'] }}"
+    java_version_java_update_substring: ".{{ java_version_parts['java_update'] }}"
+    java_version_java_update_underscore_substring: "_{{ java_version_parts['java_update'] }}"
+    java_version_java_update_b_substring: ".b{{ java_version_parts['java_update'] }}"
+  when: java_version_parts['java_update'] is defined
 
-- name: Set java_version_style
+- name: Set java_version_java_interim_substring
   set_fact:
-    java_version_style: |-
-      {%- if java_vendor == 'redhat' and java_version_parts['feature']|int < 9 %}
-      legacy
-      {%- else %}
-      modern
-      {%- endif %}
+    java_version_java_interim_substring: ".{{ java_version_parts['java_interim'] }}"
+    java_version_java_interim_underscore_substring: "_{{ java_version_parts['java_interim'] }}"
+  when: java_version_parts['java_interim'] is defined
 
-- name: Set java_version_short_string
+- name: Set java_version_java_feature_string
   set_fact:
-    java_version_short_string: "{{ java_version_feature_string }}\
-      {{ java_version_interim_string }}"
+    java_version_java_feature_string: "{{ java_version_parts['java_feature'] }}"
+
+- name: Set java_version_full_string
+  set_fact:
+    java_version_full_string: "{{ java_version_java_feature_string }}\
+      {{ java_version_java_interim_substring | default('') }}\
+      {{ java_version_java_update_substring | default('') }}\
+      {{ java_version_java_patch_substring | default('') }}\
+      {{ java_version_java_build_substring | default('') }}"
+
+- name: Set java_version_long_string
+  set_fact:
+    java_version_long_string: "{{ java_version_java_feature_string }}\
+      {{ java_version_java_interim_substring | default('') }}\
+      {{ java_version_java_update_substring | default('') }}\
+      {{ java_version_java_patch_substring | default('') }}"
 
 - name: Set java_version_medium_string
   set_fact:
-    java_version_medium_string: "{{ java_version_feature_string }}\
-      {{ java_version_interim_string }}{{ java_version_update_string }}"
+    java_version_medium_string: "{{ java_version_java_feature_string }}\
+      {{ java_version_java_interim_substring | default('') }}\
+      {{ java_version_java_update_substring | default('') }}"
 
-- name: Set java_version_string
+- name: Set java_version_short_string
   set_fact:
-    java_version_string: "{{ java_version_feature_string }}\
-      {{ java_version_interim_string }}{{ java_version_update_string }}\
-      {{ java_version_patch_string }}"
+    java_version_short_string: "{{ java_version_java_feature_string }}\
+      {{ java_version_java_interim_substring | default('') }}"
 
-- name: Set java_version_interim_underscore_string
-  set_fact:
-    java_version_interim_underscore_string: |-
-      {%- if java_version_parts['interim'] != '0' or java_version_update_string != '' %}
-      _{{ java_version_parts['interim'] }}
-      {%- else %}{%- endif %}
+- debug:
+    var: java_version_full_string
+    verbosity: "2"
 
-- name: Set java_version_b_update_string
-  set_fact:
-    java_version_b_update_string: |-
-      {%- if java_version_parts['update'] != '0' or java_version_patch_string != '' %}
-      .b{{ java_version_parts['update'] }}
-      {%- else %}{%- endif %}
+- debug:
+    var: java_version_long_string
+    verbosity: "2"
 
-- name: Set java_version_legacy_short_string
+- debug:
+    var: java_version_medium_string
+    verbosity: "2"
+
+- debug:
+    var: java_version_short_string
+    verbosity: "2"
+
+- name: Set java_version_legacy_full_string
   set_fact:
-    java_version_legacy_short_string: "1.{{ java_version_feature_string }}.0"
+    java_version_legacy_full_string:
+      "1.{{ java_version_java_feature_string }}.0\
+      {{ java_version_java_interim_underscore_substring | default('') }}\
+      {{ java_version_java_update_b_substring | default('') }}\
+      {{ java_version_java_patch_substring | default('') }}\
+      {{ java_version_java_build_substring | default('') }}"
 
 - name: Set java_version_legacy_medium_string
   set_fact:
-    java_version_legacy_medium_string: "{{ java_version_legacy_short_string }}\
-      {{ java_version_interim_underscore_string }}"
+    java_version_legacy_medium_string:
+      "1.{{ java_version_java_feature_string }}.0\
+      {{ java_version_java_interim_underscore_substring | default('') }}"
 
-- name: Set java_version_legacy_medium_dot_string
+- name: Set java_version_legacy_short_string
   set_fact:
-    java_version_legacy_medium_dot_string: "\
-      {{ java_version_legacy_short_string }}{{ java_version_interim_string }}"
+    java_version_legacy_short_string: "1.{{ java_version_java_feature_string }}.0"
 
-- name: Set java_version_legacy_long_string
-  set_fact:
-    java_version_legacy_long_string: "{{ java_version_legacy_medium_string }}\
-      {{ java_version_b_update_string }}"
+- debug:
+    var: java_version_legacy_full_string
+    verbosity: "2"
 
-- name: Set java_version_legacy_string
-  set_fact:
-    java_version_legacy_string: "{{ java_version_legacy_long_string }}\
-      {{ java_version_patch_string }}"
+- debug:
+    var: java_version_legacy_medium_string
+    verbosity: "2"
+
+- debug:
+    var: java_version_legacy_short_string
+    verbosity: "2"

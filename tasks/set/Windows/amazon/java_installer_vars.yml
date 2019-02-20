@@ -1,4 +1,17 @@
 ---
+- name: Set java_installer_version_string (Windows - Amazon)
+  set_fact:
+    java_installer_version_string: "{{ java_version_full_string }}"
+
+- name: Set java_destination_version_string (Windows - Amazon)
+  set_fact:
+    java_destination_version_string: |-
+      {%- if java_version_parts['java_feature'] | int > 8 %}
+      {{ java_version_medium_string }}{{ java_version_java_patch_underscore_substring }}
+      {%- else %}
+      {{ java_version_legacy_medium_string }}
+      {%- endif %}
+
 - name: Set java_installer_prefix (Windows - Amazon)
   set_fact:
     java_installer_prefix: "amazon-corretto-"
@@ -14,14 +27,9 @@
 - name: Set java_installer_filename (Windows - Amazon)
   set_fact:
     java_installer_filename: "{{ java_installer_prefix }}\
-      {{ java_version_string }}{{ java_installer_suffix }}\
+      {{ java_installer_version_string }}{{ java_installer_suffix }}\
       {{ java_installer_ext }}"
 
 - name: Set java_destination_dirname (Windows - Amazon)
   set_fact:
-    java_destination_dirname: |-
-      {%- if java_version_parts['feature'] | int > 8 %}
-      jdk{{ java_version_string }}
-      {%- else %}
-      jdk{{ java_version_legacy_medium_string }}
-      {%- endif %}
+    java_destination_dirname: "jdk{{ java_destination_version_string }}"

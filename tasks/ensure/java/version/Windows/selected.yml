@@ -1,5 +1,5 @@
 ---
-- name: Select java_version (Windows)
+- name: Add java_path to PATH environment variable (Windows)
   win_path:
     elements:
       - "\"{{ java_path }}\\bin\""
