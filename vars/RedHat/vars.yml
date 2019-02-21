@@ -1,0 +1,8 @@
+---
+default_java_installers_path_on_target: /tmp
+default_java_binary_name: java
+default_java_environment_file_path: /etc/environment
+
+default_java_destination_parent_paths:
+  amazon: /usr/java
+  redhat: /usr/java

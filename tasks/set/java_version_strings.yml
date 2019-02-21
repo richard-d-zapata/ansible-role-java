@@ -80,19 +80,19 @@
 
 - debug:
     var: java_version_full_string
-    verbosity: "2"
+    verbosity: 2
 
 - debug:
     var: java_version_long_string
-    verbosity: "2"
+    verbosity: 2
 
 - debug:
     var: java_version_medium_string
-    verbosity: "2"
+    verbosity: 2
 
 - debug:
     var: java_version_short_string
-    verbosity: "2"
+    verbosity: 2
 
 - name: Set java_version_legacy_full_string
   set_fact:
@@ -102,6 +102,13 @@
       {{ java_version_java_update_b_substring | default('') }}\
       {{ java_version_java_patch_substring | default('') }}\
       {{ java_version_java_build_substring | default('') }}"
+
+- name: Set java_version_legacy_long_string
+  set_fact:
+    java_version_legacy_long_string:
+      "1.{{ java_version_java_feature_string }}.0\
+      {{ java_version_java_interim_underscore_substring | default('') }}\
+      {{ java_version_java_update_b_substring | default('') }}"
 
 - name: Set java_version_legacy_medium_string
   set_fact:
@@ -115,12 +122,16 @@
 
 - debug:
     var: java_version_legacy_full_string
-    verbosity: "2"
+    verbosity: 2
 
 - debug:
     var: java_version_legacy_medium_string
-    verbosity: "2"
+    verbosity: 2
+
+- debug:
+    var: java_version_legacy_medium_string
+    verbosity: 2
 
 - debug:
     var: java_version_legacy_short_string
-    verbosity: "2"
+    verbosity: 2

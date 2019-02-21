@@ -1,0 +1,14 @@
+---
+- name: Set java_installer_version_string (RedHat - Amazon - legacy)
+  set_fact:
+    java_installer_version_string: "{{ java_version_legacy_long_string }}\
+      {{ java_version_java_patch_hyphen_substring }}"
+
+- name: Set java_destination_version_string (RedHat - Amazon - legacy)
+  set_fact:
+    java_destination_version_string: "{{ java_version_legacy_short_string }}"
+
+- name: Set java_installer_prefix (RedHat - Amazon - legacy)
+  set_fact:
+    java_installer_prefix: "java-{{ java_version_legacy_short_string }}-\
+      amazon-corretto-devel-"

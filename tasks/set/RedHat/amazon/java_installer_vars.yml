@@ -1,0 +1,33 @@
+---
+- name: Set java_installer_suffix (RedHat - Amazon)
+  set_fact:
+    java_installer_suffix: ".x86_64"
+
+- name: Set java_installer_ext (RedHat - Amazon)
+  set_fact:
+    java_installer_ext: ".rpm"
+
+- name: Set java_version_style (RedHat - Amazon)
+  set_fact:
+    java_version_style: |-
+      {%- if java_vendor == 'amazon' and java_version_parts['java_feature']|int < 9 %}
+      legacy
+      {%- else %}
+      modern
+      {%- endif %}
+
+- name: Set legacy/modern Java installer variables (RedHat - Amazon)
+  include_tasks: "java_installer_vars/{{ java_version_style }}.yml"
+
+- name: Set java_installer_filename (RedHat - Amazon)
+  set_fact:
+    java_installer_filename: "\
+      {{ java_installer_prefix }}\
+      {{ java_installer_version_string }}\
+      {{ java_installer_suffix }}\
+      {{ java_installer_ext }}"
+
+- name: Set java_destination_dirname (RedHat - Amazon)
+  set_fact:
+    java_destination_dirname: "java-{{ java_destination_version_string }}-\
+      amazon-corretto"

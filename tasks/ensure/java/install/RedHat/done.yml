@@ -1,0 +1,6 @@
+---
+- name: Install JDK (RedHat)
+  become: true
+  yum:
+    name: "{{ java_installers_path_on_target }}/{{ java_installer_filename }}"
+    state: installed
