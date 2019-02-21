@@ -63,7 +63,6 @@
       get_url:
         url: "{{ java_installer_url_path }}/{{ java_installer_filename }}"
         dest: "{{ java_installers_path_on_target }}"
-        # headers: "{{ java_installer_url_headers }}"
       when: |-
         java_local_installer_filepath is not defined or
         not java_local_installer_filepath

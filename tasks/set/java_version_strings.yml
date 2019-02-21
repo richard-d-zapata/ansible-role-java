@@ -25,12 +25,14 @@
   set_fact:
     java_version_java_build_substring: ".{{ java_version_parts['java_build'] }}"
     java_version_java_build_underscore_substring: "_{{ java_version_parts['java_build'] }}"
+    java_version_java_build_hyphen_substring: "-{{ java_version_parts['java_build'] }}"
   when: java_version_parts['java_build'] is defined
 
 - name: Set java_version_java_patch_substring
   set_fact:
     java_version_java_patch_substring: ".{{ java_version_parts['java_patch'] }}"
     java_version_java_patch_underscore_substring: "_{{ java_version_parts['java_patch'] }}"
+    java_version_java_patch_hyphen_substring: "-{{ java_version_parts['java_patch'] }}"
   when: java_version_parts['java_patch'] is defined
 
 - name: Set java_version_java_update_substring

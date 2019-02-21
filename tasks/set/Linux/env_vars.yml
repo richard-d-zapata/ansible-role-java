@@ -1,0 +1,7 @@
+---
+- name: Add Linux environment variables to java_local_installer_path_env_vars
+  set_fact:
+    java_local_installer_path_env_vars: "{{ java_local_installer_path_env_vars }} + [ '{{ item }}' ]"
+  loop:
+    - "LINUX_LOCAL_INSTALLERS_PATH"
+    - "JAVA_LINUX_LOCAL_INSTALLERS_PATH"

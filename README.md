@@ -6,8 +6,9 @@ This Ansible role is intended to install Java for testing purposes. No attempt
 is made to "harden" the installation for production use.
 
 Currently, this role supports installation of OpenJDK (of the Amazon Corretto
-or RedHat flavor) on Windows. As these seem to be new products, the versions of
-JDK that can be installed are limited.
+or RedHat flavor) on Windows and Amazon Corretto OpenJDK on macOS and Ubuntu.
+As some of these seem to be new products, the versions of JDK that can be
+installed may be limited.
 
 ## Java Versions
 
@@ -233,9 +234,25 @@ specify the java_version like this:
       env:
         JAVA_VERSION: 8.202.08.2
 
+### Default Tests
+
+Ubuntu 18 via docker:
+
+    molecule test
+
+or
+
+    JAVA_VERSION=8.202.08.2 molecule test
+
+### Ubuntu Tests
+
+Ubuntu 18, 16, 14, and 12 via docker:
+
+    molecule test --scenario-name ubuntu-docker
+
 ### macOS Tests
 
-macOS 10.13, 10.12, 10.11 via vagrant:
+macOS 10.13, 10.12, or 10.11 via vagrant:
 
     molecule test --scenario-name macos-vagrant
 

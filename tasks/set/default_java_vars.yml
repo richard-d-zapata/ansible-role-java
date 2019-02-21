@@ -8,7 +8,7 @@
 
 - name: Include OS family-specific 'default_java_' variables
   include_vars: "{{ ansible_facts.os_family }}/vars.yml"
-  when: ansible_facts.os_family in ['Windows','Darwin']
+  when: ansible_facts.os_family in ['Windows','Darwin','Debian']
 
 # based on concepts found here: https://www.samdarwin.com/ansible-default-vars/
 # with a little filter magic from here: https://www.tailored.cloud/devops/how-to-filter-and-map-lists-in-ansible/
