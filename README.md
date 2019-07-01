@@ -130,48 +130,40 @@ Use of this role consists of the following:
 
 ### Example Playbooks
 
-``` yaml
-- name: Install JDK
-    hosts: servers
-    roles:
-        - { role: kaos2oak.java }
-```
+    - name: Install JDK
+        hosts: servers
+        roles:
+            - { role: kaos2oak.java }
 
 _Note: See the `defaults.yml` file for the "default" Java version that will_
 _be installed by the above playbook._
 
-``` yaml
-- name: Install Amazon Corretto JDK 11.0.3
-    hosts: servers
-    vars:
-        java_version: '11.0.3.7.1'
-        java_vendor: 'amazon'
-        java_install_type: 'installer'
-    roles:
-        - { role: kaos2oak.java }
-```
+    - name: Install Amazon Corretto JDK 11.0.3
+        hosts: servers
+        vars:
+            java_version: '11.0.3.7.1'
+            java_vendor: 'amazon'
+            java_install_type: 'installer'
+        roles:
+            - { role: kaos2oak.java }
 
-``` yaml
-- name: Install Amazon Corretto JDK 8.202.08.2
-    hosts: servers
-    vars:
-        java_version: '8.202.08.2'
-        java_vendor: 'amazon'
-        java_install_type: 'installer'
-    roles:
-        - { role: kaos2oak.java }
-```
+    - name: Install Amazon Corretto JDK 8.202.08.2
+        hosts: servers
+        vars:
+            java_version: '8.202.08.2'
+            java_vendor: 'amazon'
+            java_install_type: 'installer'
+        roles:
+            - { role: kaos2oak.java }
 
-``` yaml
-- name: Install RedHat JDK 8.201-2.09 (a.k.a. 1.8.0.201-2.b09)
-    hosts: servers
-    vars:
-        java_version: '8.201-2.09'
-        java_vendor: 'redhat'
-        java_install_type: 'installer'
-    roles:
-        - { role: kaos2oak.java }
-```
+    - name: Install RedHat JDK 8.201-2.09 (a.k.a. 1.8.0.201-2.b09)
+        hosts: servers
+        vars:
+            java_version: '8.201-2.09'
+            java_vendor: 'redhat'
+            java_install_type: 'installer'
+        roles:
+            - { role: kaos2oak.java }
 
 ### Example Installer Locations
 
@@ -190,12 +182,10 @@ into folders, create a file named something like `setup` in a directory named
 .gitignore ignored files, so it will not be part of any commit) and then
 `source` the file:
 
-``` shell
-# File: setup
-export JAVA_MAC_LOCAL_INSTALLERS_PATH="$HOME/Installers/Mac/Java"
-export JAVA_LINUX_LOCAL_INSTALLERS_PATH="$HOME/Installers/Linux/Java"
-export JAVA_WINDOWS_LOCAL_INSTALLERS_PATH="$HOME/Installers/Windows/Java"
-```
+    # File: setup
+    export JAVA_MAC_LOCAL_INSTALLERS_PATH="$HOME/Installers/Mac/Java"
+    export JAVA_LINUX_LOCAL_INSTALLERS_PATH="$HOME/Installers/Linux/Java"
+    export JAVA_WINDOWS_LOCAL_INSTALLERS_PATH="$HOME/Installers/Windows/Java"
 
     source my/setup
 

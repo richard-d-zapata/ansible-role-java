@@ -12,6 +12,3 @@
   set_fact:
     java_installer_prefix: "java-{{ java_version_java_feature_string }}-\
       amazon-corretto-jdk_"
-
-
-

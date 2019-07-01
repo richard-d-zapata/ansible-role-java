@@ -17,40 +17,40 @@
 - name: Set Java environment variable values (Debian)
   block:
 
-  - name: Check if java_environment_file_path file exists (Debian)
-    stat:
-      path: "{{ java_environment_file_path }}"
-    register: environment_file
+    - name: Check if java_environment_file_path file exists (Debian)
+      stat:
+        path: "{{ java_environment_file_path }}"
+      register: environment_file
 
-  - name: Ensure java_environment_file_path file exists (Debian)
-    file:
-      path: "{{ java_environment_file_path }}"
-      owner: "{{ ansible_user }}"
-      group: root
-      state: touch
-      mode: 0644
-    when: not environment_file.stat.exists
+    - name: Ensure java_environment_file_path file exists (Debian)
+      file:
+        path: "{{ java_environment_file_path }}"
+        owner: "{{ ansible_user }}"
+        group: root
+        state: touch
+        mode: 0644
+      when: not environment_file.stat.exists
 
-  - name: Set JAVA_HOME (Debian)
-    lineinfile:
-      dest: "{{ java_environment_file_path }}"
-      state: present
-      regexp: '^export\s+JAVA_HOME'
-      line: "export JAVA_HOME={{ java_home_path }}"
-    become: true
+    - name: Set JAVA_HOME (Debian)
+      lineinfile:
+        dest: "{{ java_environment_file_path }}"
+        state: present
+        regexp: '^export\s+JAVA_HOME'
+        line: "export JAVA_HOME={{ java_home_path }}"
+      become: true
 
-  - name: Check if JRE directory exists (Debian)
-    stat:
-      path: "{{ java_home_path }}/jre"
-    register: jre_dir
+    - name: Check if JRE directory exists (Debian)
+      stat:
+        path: "{{ java_home_path }}/jre"
+      register: jre_dir
 
-  - name: Set JRE_HOME (Debian)
-    lineinfile:
-      dest: "{{ java_environment_file_path }}"
-      state: present
-      regexp: '^export\s+JRE_HOME'
-      line: "export JRE_HOME={{ java_home_path }}/jre"
-    become: true
-    when: jre_dir.stat.isdir is defined and jre_dir.stat.isdir
+    - name: Set JRE_HOME (Debian)
+      lineinfile:
+        dest: "{{ java_environment_file_path }}"
+        state: present
+        regexp: '^export\s+JRE_HOME'
+        line: "export JRE_HOME={{ java_home_path }}/jre"
+      become: true
+      when: jre_dir.stat.isdir is defined and jre_dir.stat.isdir
 
   when: java_set_env_vars

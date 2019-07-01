@@ -10,4 +10,3 @@
 
 - name: Set legacy/modern Java installer variables (RedHat - yum)
   include_tasks: "java_installer_vars/{{ java_version_style }}.yml"
-
