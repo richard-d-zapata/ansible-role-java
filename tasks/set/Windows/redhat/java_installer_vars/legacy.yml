@@ -5,7 +5,7 @@
       {%- if java_version_parts['java_feature'] | int > 8 %}
       {{ java_version_full_string }}
       {%- else %}
-      {{ java_version_legacy_short_string }}{{ java_version_java_interim_substring }}{{ java_version_java_update_b_substring }}
+      {{ java_version_legacy_short_string }}{{ java_version_java_interim_dot_substring }}{{ java_version_java_update_b_dot_substring }}
       {%- endif %}
 
 - name: Set java_destination_version_string (Windows - RedHat - legacy JDK)
@@ -14,7 +14,7 @@
       {%- if java_version_parts['java_feature'] | int > 8 %}
       {{ java_version_medium_string }}{{ java_version_java_patch_underscore_substring }}
       {%- else %}
-      {{ java_version_legacy_short_string }}{{ java_version_java_interim_substring }}
+      {{ java_version_legacy_short_string }}{{ java_version_java_interim_dot_substring }}
       {%- endif %}
 
 - name: Set java_installer_prefix (Windows - RedHat - legacy JDK)

@@ -1,0 +1,13 @@
+---
+- name: Set java_version_style (RedHat - yum)
+  set_fact:
+    java_version_style: |-
+      {%- if java_version_parts['java_feature']|int < 9 %}
+      legacy
+      {%- else %}
+      modern
+      {%- endif %}
+
+- name: Set legacy/modern Java installer variables (RedHat - yum)
+  include_tasks: "java_installer_vars/{{ java_version_style }}.yml"
+

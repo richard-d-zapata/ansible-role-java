@@ -1,0 +1,7 @@
+---
+- name: Install JDK (RedHat - yum)
+  become: true
+  yum:
+    name: "{{ java_yum_package_string }}"
+    state: present
+    update_cache: yes

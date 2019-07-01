@@ -26,8 +26,10 @@
 
 - name: Set java_installer_filename (Windows - Amazon)
   set_fact:
-    java_installer_filename: "{{ java_installer_prefix }}\
-      {{ java_installer_version_string }}{{ java_installer_suffix }}\
+    java_installer_filename: "\
+      {{ java_installer_prefix }}\
+      {{ java_installer_version_string }}\
+      {{ java_installer_suffix }}\
       {{ java_installer_ext }}"
 
 - name: Set java_destination_dirname (Windows - Amazon)

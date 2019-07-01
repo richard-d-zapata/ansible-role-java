@@ -1,0 +1,22 @@
+---
+- name: Update apt cache (Debian - apt)
+  become: true
+  apt:
+    update_cache: true
+
+- name: Install PPA (Debian - apt)
+  become: true
+  apt_repository:
+    repo: ppa:openjdk-r/ppa
+    state: present
+
+- name: Update apt cache (Debian - apt)
+  become: true
+  apt:
+    update_cache: true
+
+- name: Install JDK (Debian - apt)
+  become: true
+  apt:
+    pkg: "openjdk-{{ java_version_java_feature_string }}-jdk"
+    state: present

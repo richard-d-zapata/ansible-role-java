@@ -1,4 +1,9 @@
 ---
+- name: Set vendor to 'apt' for package manager installs (Debian)
+  set_fact:
+    java_vendor: apt
+  when: java_install_type == 'package_manager'
+
 - name: Set vendor-specific Java installer variables (Debian)
   include_tasks: "{{ java_vendor }}/java_installer_vars.yml"
 

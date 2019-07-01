@@ -1,0 +1,14 @@
+---
+- name: Set java_yum_package_string (RedHat - yum - modern)
+  set_fact:
+    java_yum_package_string: "java-{{ java_version_java_feature_string }}\
+      -openjdk-devel"
+
+- name: Set java_destination_version_string (RedHat - yum - modern)
+  set_fact:
+    java_destination_version_string: "{{ java_version_java_feature_string }}"
+
+- name: Set java_destination_dirname (RedHat - yum)
+  set_fact:
+    java_destination_dirname: "java-{{ java_destination_version_string }}-\
+      openjdk"

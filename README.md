@@ -1,14 +1,30 @@
 # Kaos2oak Java
 
-Install Java
+## Install Java
 
 This Ansible role is intended to install Java for testing purposes. No attempt
 is made to "harden" the installation for production use.
 
-Currently, this role supports installation of OpenJDK (of the Amazon Corretto
-or RedHat flavor) on Windows and Amazon Corretto OpenJDK on macOS, Ubuntu and
-RedHat. As some of these seem to be new products, the versions of JDK that
-can be installed may be limited.
+Currently, this role supports installation of various flavors of OpenJDK:
+
+- macOS
+
+  - Amazon Corretto (default)
+
+- Ubuntu
+
+  - OpenJDK via 'apt' (default)
+  - Amazon Corretto
+
+- RedHat
+
+  - OpenJDK via 'yum' (default)
+  - Amazon Corretto
+
+- Windows
+
+  - Amazon Corretto (default)
+  - RedHat OpenJDK
 
 ## Java Versions
 
@@ -17,6 +33,10 @@ and "modern" (9+) and "legacy" (8 and below) versions of Java. To attempt to
 bring some consistency to Java version specification for this role, currently
 the `java_version` is expected to be specified with periods between all of the
 different Java version numbers (without letters).
+
+_**Note:** Package manager (i.e. `yum` and `apt`) installs are limited to_
+_installing the latest version of the 'feature' Java version specified_
+_regardless of what other interim, update, etc. values are provided._
 
 This is essentially starting with the official Oracle
 [version string format](https://docs.oracle.com/en/java/javase/11/install/version-string-format.html)
@@ -28,15 +48,16 @@ yet another number. Basically:
 This means that some of the version numbers you see in the installer names and
 documentation may need to be adjusted to be used with this role. This also
 includes modifying "legacy" version numbers to match the newer standard.
+
 Examples:
 
-    11.0.2.9.1       ->  11.0.2.9.1
+    11.0.3.7.1       ->  11.0.3.7.1
     11.0.2.7-2       ->  11.0.2.7-2
     1.8.0.201-2.b09  ->  8.201-2.09
     8.202.08.2       ->  8.202.08.2
 
 This version number strategy will continue to be evaluated and modified, if
-necessary, to accomodate other vendors and versioning schemes as the role is
+necessary, to accommodate other vendors and versioning schemes as the role is
 improved.
 
 ## Environment Variables
@@ -69,11 +90,12 @@ Other variables may also be specified with environment variables to make it
 easier to specify them on the command line immediately preceding the
 ansible-playbook command.
 
-| Option                    | Default | Example                                 |
-| :------------------------ | :------ | :-------------------------------------- |
-| `JAVA_VERSION`            | none    | `11.0.2.9.1` or `8.202.08.2`            |
-| `JAVA_VENDOR`             | none    | `amazon` or `redhat`                    |
-| `JAVA_INSTALLER_URL_PATH` | none    | `https://d2znqt9b1bc64u.cloudfront.net` |
+| Option                    | Default      | Example                                 |
+| :------------------------ | :----------- | :-------------------------------------- |
+| `JAVA_VERSION`            | none         | `11.0.3.7.1` or `8.202.08.2`            |
+| `JAVA_VENDOR`             | none         | `amazon` or `redhat`                    |
+| `JAVA_INSTALL_TYPE`       | varies by OS | `installer` or `package_manager`        |
+| `JAVA_INSTALLER_URL_PATH` | none         | `https://d2znqt9b1bc64u.cloudfront.net` |
 
 ## Role Variables
 
@@ -83,8 +105,9 @@ playbook itself or on the command line when running the playbook.
 
 | Option                      | Default                                 | Example                                                 |
 | :-------------------------- | :-------------------------------------- | :------------------------------------------------------ |
-| `java_version`              | `11.0.2.9.1`                            | `11.0.2.9.1` or `8.202.08.2`                            |
+| `java_version`              | `11.0.3.7.1`                            | `11.0.3.7.1` or `8.202.08.2`                            |
 | `java_vendor`               | `amazon`                                | `amazon` or `redhat`                                    |
+| `java_install_type`         | varies by OS                            | `installer` or `package_manager`                        |
 | `java_installers_path_list` | [`/Users/Shared/Installers`]            | [`/Users/Shared/Installers`,`/Users/myaccount/Desktop`] |
 | `java_installer_url_path`   | `https://d2znqt9b1bc64u.cloudfront.net` | `https://d2znqt9b1bc64u.cloudfront.net`                 |
 
@@ -118,11 +141,12 @@ _Note: See the `defaults.yml` file for the "default" Java version that will_
 _be installed by the above playbook._
 
 ``` yaml
-- name: Install Amazon Corretto JDK 11.0.2
+- name: Install Amazon Corretto JDK 11.0.3
     hosts: servers
     vars:
-        java_version: '11.0.2.9.1'
+        java_version: '11.0.3.7.1'
         java_vendor: 'amazon'
+        java_install_type: 'installer'
     roles:
         - { role: kaos2oak.java }
 ```
@@ -133,6 +157,7 @@ _be installed by the above playbook._
     vars:
         java_version: '8.202.08.2'
         java_vendor: 'amazon'
+        java_install_type: 'installer'
     roles:
         - { role: kaos2oak.java }
 ```
@@ -143,6 +168,7 @@ _be installed by the above playbook._
     vars:
         java_version: '8.201-2.09'
         java_vendor: 'redhat'
+        java_install_type: 'installer'
     roles:
         - { role: kaos2oak.java }
 ```
@@ -179,11 +205,11 @@ Since the Java version and vendor may be something that you want to change on
 the fly, you probably don't want to include them in the `setup` file, but you
 can always provide them on the command line before the ansible-playbook run:
 
-    export JAVA_VENDOR=redhat JAVA_VERSION=8.201-2.09
+    export JAVA_VENDOR=redhat JAVA_VERSION=8.201-2.09 JAVA_INSTALL_TYPE=installer
 
 Or, provide them as "extra-vars" role variables for the ansible-playbook run:
 
-    -e "java_vendor=redhat java_version=11.0.2.7-2"
+    -e "java_vendor=redhat java_version=11.0.2.7-2 java_install_type=installer"
 
 ### Example Playbook Runs
 

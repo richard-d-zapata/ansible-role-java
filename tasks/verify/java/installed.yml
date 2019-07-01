@@ -5,7 +5,7 @@
 - name: Set java_installed
   set_fact:
     java_installed: |-
-      {%- if java_install_check.stat.exists %}
+      {%- if java_install_check.stat.exists and java_vendor != 'yum' %}
       true
       {%- else %}
       false

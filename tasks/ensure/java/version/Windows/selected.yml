@@ -1,11 +1,11 @@
 ---
-- name: Add java_path to PATH environment variable (Windows)
+- name: Add java_home_path to PATH environment variable (Windows)
   win_path:
-    elements: "{{ java_path }}\\bin"
+    elements: "{{ java_home_path }}\\bin"
 
 - name: Set JAVA_HOME (Windows)
   win_environment:
     state: present
     name: JAVA_HOME
-    value: "{{ java_path }}"
+    value: "{{ java_home_path }}"
     level: machine

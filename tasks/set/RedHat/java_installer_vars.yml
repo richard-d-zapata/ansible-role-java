@@ -1,4 +1,9 @@
 ---
+- name: Set vendor to 'yum' for package manager installs (RedHat)
+  set_fact:
+    java_vendor: yum
+  when: java_install_type == 'package_manager'
+
 - name: Set vendor-specific Java installer variables (RedHat)
   include_tasks: "{{ java_vendor }}/java_installer_vars.yml"
 

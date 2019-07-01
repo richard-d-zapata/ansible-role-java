@@ -1,8 +1,4 @@
 ---
-- name: Get Java directories in java_destination_parent_path (Unix)
-  find:
-    paths: "{{ java_destination_parent_path }}"
-    file_type: directory
-    recurse: false
-  become: true
-  register: found_dirs
+- name: Set java_home_path (Unix)
+  set_fact:
+    java_home_path: "{{ java_destination_parent_path }}/{{ java_destination_dirname }}"

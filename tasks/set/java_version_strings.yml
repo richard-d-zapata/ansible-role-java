@@ -21,31 +21,37 @@
     var: java_version_parts
     verbosity: "2"
 
-- name: Set java_version_java_build_substring
+- name: Set build substrings
   set_fact:
-    java_version_java_build_substring: ".{{ java_version_parts['java_build'] }}"
+    java_version_java_build_substring: "{{ java_version_parts['java_build'] }}"
+    java_version_java_build_dot_substring: ".{{ java_version_parts['java_build'] }}"
     java_version_java_build_underscore_substring: "_{{ java_version_parts['java_build'] }}"
     java_version_java_build_hyphen_substring: "-{{ java_version_parts['java_build'] }}"
   when: java_version_parts['java_build'] is defined
 
-- name: Set java_version_java_patch_substring
+- name: Set patch substrings
   set_fact:
-    java_version_java_patch_substring: ".{{ java_version_parts['java_patch'] }}"
+    java_version_java_patch_substring: "{{ java_version_parts['java_patch'] }}"
+    java_version_java_patch_dot_substring: ".{{ java_version_parts['java_patch'] }}"
     java_version_java_patch_underscore_substring: "_{{ java_version_parts['java_patch'] }}"
     java_version_java_patch_hyphen_substring: "-{{ java_version_parts['java_patch'] }}"
   when: java_version_parts['java_patch'] is defined
 
-- name: Set java_version_java_update_substring
+- name: Set update substrings
   set_fact:
-    java_version_java_update_substring: ".{{ java_version_parts['java_update'] }}"
+    java_version_java_update_substring: "{{ java_version_parts['java_update'] }}"
+    java_version_java_update_dot_substring: ".{{ java_version_parts['java_update'] }}"
     java_version_java_update_underscore_substring: "_{{ java_version_parts['java_update'] }}"
-    java_version_java_update_b_substring: ".b{{ java_version_parts['java_update'] }}"
+    java_version_java_update_b_substring: "b{{ java_version_parts['java_update'] }}"
+    java_version_java_update_b_dot_substring: ".b{{ java_version_parts['java_update'] }}"
   when: java_version_parts['java_update'] is defined
 
-- name: Set java_version_java_interim_substring
+- name: Set interim substrings
   set_fact:
-    java_version_java_interim_substring: ".{{ java_version_parts['java_interim'] }}"
+    java_version_java_interim_substring: "{{ java_version_parts['java_interim'] }}"
+    java_version_java_interim_dot_substring: ".{{ java_version_parts['java_interim'] }}"
     java_version_java_interim_underscore_substring: "_{{ java_version_parts['java_interim'] }}"
+    java_version_java_interim_u_substring: "u{{ java_version_parts['java_interim'] }}"
   when: java_version_parts['java_interim'] is defined
 
 - name: Set java_version_java_feature_string
@@ -55,28 +61,28 @@
 - name: Set java_version_full_string
   set_fact:
     java_version_full_string: "{{ java_version_java_feature_string }}\
-      {{ java_version_java_interim_substring | default('') }}\
-      {{ java_version_java_update_substring | default('') }}\
-      {{ java_version_java_patch_substring | default('') }}\
-      {{ java_version_java_build_substring | default('') }}"
+      {{ java_version_java_interim_dot_substring | default('') }}\
+      {{ java_version_java_update_dot_substring | default('') }}\
+      {{ java_version_java_patch_dot_substring | default('') }}\
+      {{ java_version_java_build_dot_substring | default('') }}"
 
 - name: Set java_version_long_string
   set_fact:
     java_version_long_string: "{{ java_version_java_feature_string }}\
-      {{ java_version_java_interim_substring | default('') }}\
-      {{ java_version_java_update_substring | default('') }}\
-      {{ java_version_java_patch_substring | default('') }}"
+      {{ java_version_java_interim_dot_substring | default('') }}\
+      {{ java_version_java_update_dot_substring | default('') }}\
+      {{ java_version_java_patch_dot_substring | default('') }}"
 
 - name: Set java_version_medium_string
   set_fact:
     java_version_medium_string: "{{ java_version_java_feature_string }}\
-      {{ java_version_java_interim_substring | default('') }}\
-      {{ java_version_java_update_substring | default('') }}"
+      {{ java_version_java_interim_dot_substring | default('') }}\
+      {{ java_version_java_update_dot_substring | default('') }}"
 
 - name: Set java_version_short_string
   set_fact:
     java_version_short_string: "{{ java_version_java_feature_string }}\
-      {{ java_version_java_interim_substring | default('') }}"
+      {{ java_version_java_interim_dot_substring | default('') }}"
 
 - debug:
     var: java_version_full_string
@@ -99,16 +105,16 @@
     java_version_legacy_full_string:
       "1.{{ java_version_java_feature_string }}.0\
       {{ java_version_java_interim_underscore_substring | default('') }}\
-      {{ java_version_java_update_b_substring | default('') }}\
-      {{ java_version_java_patch_substring | default('') }}\
-      {{ java_version_java_build_substring | default('') }}"
+      {{ java_version_java_update_b_dot_substring | default('') }}\
+      {{ java_version_java_patch_dot_substring | default('') }}\
+      {{ java_version_java_build_dot_substring | default('') }}"
 
 - name: Set java_version_legacy_long_string
   set_fact:
     java_version_legacy_long_string:
       "1.{{ java_version_java_feature_string }}.0\
       {{ java_version_java_interim_underscore_substring | default('') }}\
-      {{ java_version_java_update_b_substring | default('') }}"
+      {{ java_version_java_update_b_dot_substring | default('') }}"
 
 - name: Set java_version_legacy_medium_string
   set_fact:

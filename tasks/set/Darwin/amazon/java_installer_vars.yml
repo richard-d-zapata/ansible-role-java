@@ -19,10 +19,21 @@
   set_fact:
     java_installer_ext: ".pkg"
 
+- name: Set java_version_style (Darwin - Amazon)
+  set_fact:
+    java_version_style: |-
+      {%- if java_vendor == 'amazon' and java_version_parts['java_feature']|int < 9 %}
+      legacy
+      {%- else %}
+      modern
+      {%- endif %}
+
 - name: Set java_installer_filename (Darwin - Amazon)
   set_fact:
-    java_installer_filename: "{{ java_installer_prefix }}\
-      {{ java_installer_version_string }}{{ java_installer_suffix }}\
+    java_installer_filename: "\
+      {{ java_installer_prefix }}\
+      {{ java_installer_version_string }}\
+      {{ java_installer_suffix }}\
       {{ java_installer_ext }}"
 
 - name: Set java_destination_dirname (Darwin - Amazon)

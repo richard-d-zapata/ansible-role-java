@@ -2,7 +2,7 @@
 galaxy_info:
   role_name: java
   author: kaos2oak
-  description: Install JDK
+  description: Install OpenJDK
 
   license: license (MIT)
 
@@ -24,6 +24,7 @@ galaxy_info:
         - "10.12"
         - "10.13"
         - "10.14"
+        - "10.15"
     - name: Windows
       versions:
         - "2012R2"
@@ -33,7 +34,7 @@ galaxy_info:
   galaxy_tags:
     - java
     - jdk
-    - open
+    - openjdk
     - amazon
     - corretto
     - redhat

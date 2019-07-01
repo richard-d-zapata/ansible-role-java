@@ -9,6 +9,6 @@
 
 # TODO: Consider a better way to do this: it's OK for clean installs, but will
 #       probably cause problems for multi-java installations.
-- name: Set java_path to most recent directory in java_destination_parent_path
+- name: Set java_home_path to most recent directory in java_destination_parent_path
   set_fact:
-    java_path: "{{ (found_dirs.files | sort(attribute='lastwritetime') | last).path }}"
+    java_home_path: "{{ (found_dirs.files | sort(attribute='lastwritetime') | last).path }}"

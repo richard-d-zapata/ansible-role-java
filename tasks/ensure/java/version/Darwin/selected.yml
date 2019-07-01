@@ -1,19 +1,54 @@
 ---
-- name: Ensure java_environment_file_path file exists (Darwin)
-  file:
-    path: "{{ java_environment_file_path }}"
-    owner: "{{ ansible_user }}"
-    group: staff
-    state: touch
-    mode: 0644
+- name: Set Java environment variable values
+  block:
 
-- name: Set JAVA_HOME (Darwin)
-  lineinfile:
-    dest: "{{ java_environment_file_path }}"
-    state: present
-    regexp: '^export\\s+JAVA_HOME'
-    line: "export JAVA_HOME=$(/usr/libexec/java_home -v \
-      {{ java_version_java_feature_string }})"
+  - name: Check if java_environment_file_path file exists (Darwin)
+    stat:
+      path: "{{ java_environment_file_path }}"
+    register: environment_file
 
-- name: Source user profile (Darwin)
-  shell: "source {{ java_environment_file_path }}"
+  - name: Ensure java_environment_file_path file exists (Darwin)
+    file:
+      path: "{{ java_environment_file_path }}"
+      owner: "{{ ansible_user }}"
+      group: staff
+      state: touch
+      mode: 0644
+    when: not environment_file.stat.exists
+
+  - name: Set JAVA_HOME (Darwin)
+    lineinfile:
+      dest: "{{ java_environment_file_path }}"
+      state: present
+      regexp: '^export\s+JAVA_HOME'
+      line: "export JAVA_HOME={{ java_home_path }}{{ java_subpath }}"
+
+  - name: Set JAVA_HOME globally (Darwin)
+    command: 'launchctl setenv JAVA_HOME "{{ java_home_path }}{{ java_subpath }}"'
+
+  - name: Check if JRE directory exists (Darwin)
+    stat:
+      path: "{{ java_home_path }}{{ java_subpath }}/jre"
+    register: jre_dir
+
+  - name: Remove JRE_HOME (Darwin)
+    lineinfile:
+      dest: "{{ java_environment_file_path }}"
+      state: absent
+      regexp: '^export\s+JRE_HOME='
+      line: "export JRE_HOME={{ java_home_path }}{{ java_subpath }}/jre"
+    when: jre_dir.stat.isdir is not defined or not jre_dir.stat.isdir
+
+  - name: Set JRE_HOME (Darwin)
+    lineinfile:
+      dest: "{{ java_environment_file_path }}"
+      state: present
+      regexp: '^export\s+JRE_HOME='
+      line: "export JRE_HOME={{ java_home_path }}{{ java_subpath }}/jre"
+    when: jre_dir.stat.isdir is defined and jre_dir.stat.isdir
+
+  - name: Set JRE_HOME globally (Darwin)
+    command: 'launchctl setenv JRE_HOME "{{ java_home_path }}{{ java_subpath }}/jre"'
+    when: jre_dir.stat.isdir is defined and jre_dir.stat.isdir
+
+  when: java_set_env_vars

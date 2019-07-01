@@ -1,1 +1,94 @@
 ---
+- debug:
+    var: java_home_path
+
+- name: Set and choose paths for 'yum' until a better method can be found (RedHat - yum)
+  block:
+
+  - name: Get directories in java_destination_parent_path (RedHat - yum)
+    find:
+      paths: "{{ java_destination_parent_path }}"
+      file_type: directory
+      recurse: false
+    become: true
+    register: found_dirs
+
+  # TODO: Come up with a better way to get the full java_real_path
+  - name: Set java_real_path to most recent directory in java_destination_parent_path (RedHat - yum)
+    set_fact:
+      java_real_path: "{{ (found_dirs.files | sort(attribute='mtime') | last).path }}"
+
+  - debug:
+      var: java_real_path
+
+  # Not the ideal way to do this. See note below.
+  - name: Set Java version using alternatives (RedHat)
+    command: 'update-alternatives --set {{ item.name }} {{ java_real_path }}/{{ item.subpath }}/{{ item.name }}'
+    loop:
+      - { name: java, subpath: '{{ java_binary_subpath[java_version_style] }}bin' }
+      - { name: javac, subpath: 'bin' }
+    become: true
+
+  when: java_vendor == 'yum'
+
+# Ansible 'alternatives' requires a 'link' on RedHat, which then seems to
+# perform an 'install' instead of just a 'set' and, when installing 'yum'
+# JDK 11 where JDK 8 is already installed, it goofs things up.
+# TODO: Figure out whether this can be used with yum somehow so that
+#       idempotency can be maintained.
+- name: Set Java version using alternatives (RedHat - not yum)
+  alternatives:
+    name: '{{ item.name }}'
+    path: '{{ java_home_path }}/{{ item.subpath }}/{{ item.name }}'
+    link: '/usr/bin/{{ item.name }}'
+  loop:
+    - { name: java, subpath: '{{ java_binary_subpath[java_version_style] }}bin' }
+    - { name: javac, subpath: 'bin' }
+  become: true
+  when: java_vendor != 'yum'
+
+- name: Set Java environment variable values (RedHat)
+  block:
+
+  - name: Check if java_environment_file_path file exists (RedHat)
+    stat:
+      path: "{{ java_environment_file_path }}"
+    register: environment_file
+
+  - name: Ensure java_environment_file_path file exists (RedHat)
+    file:
+      path: "{{ java_environment_file_path }}"
+      owner: "{{ ansible_user }}"
+      group: root
+      state: touch
+      mode: 0644
+    when: not environment_file.stat.exists
+
+  - name: Set JAVA_HOME (RedHat)
+    lineinfile:
+      dest: "{{ java_environment_file_path }}"
+      state: present
+      regexp: '^export\s+JAVA_HOME'
+      line: "export JAVA_HOME={{ java_home_path }}"
+    become: true
+
+  - name: Configure JRE_HOME (RedHat)
+    block:
+
+    - name: Check if JRE directory exists (RedHat)
+      stat:
+        path: "{{ java_home_path }}/jre"
+      register: jre_dir
+
+    - name: Set JRE_HOME (RedHat)
+      lineinfile:
+        dest: "{{ java_environment_file_path }}"
+        state: present
+        regexp: '^export\s+JRE_HOME'
+        line: "export JRE_HOME={{ java_home_path }}/jre"
+      become: true
+      when: jre_dir.stat.isdir is defined and jre_dir.stat.isdir
+
+    when: java_version_style != 'modern'
+
+  when: java_set_env_vars

@@ -1,0 +1,9 @@
+---
+- name: Set java_version_style (Debian - apt)
+  set_fact:
+    java_version_style: modern
+
+- name: Set java_destination_dirname (Debian - apt)
+  set_fact:
+    java_destination_dirname: "java-{{ java_version_java_feature_string }}-\
+      openjdk-amd64"

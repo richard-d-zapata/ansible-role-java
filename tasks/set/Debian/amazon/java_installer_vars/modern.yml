@@ -6,10 +6,12 @@
 
 - name: Set java_destination_version_string (Debian - Amazon - modern)
   set_fact:
-    java_destination_version_string: "{{ java_version_medium_string }}\
-      {{ java_version_java_patch_underscore_substring }}"
+    java_destination_version_string: "{{ java_version_java_feature_string }}"
 
 - name: Set java_installer_prefix (Debian - Amazon - modern)
   set_fact:
     java_installer_prefix: "java-{{ java_version_java_feature_string }}-\
       amazon-corretto-jdk_"
+
+
+

@@ -1,6 +1,7 @@
 ---
 - name: Ensure Java installer has been obtained
   include_tasks: installer/obtained.yml
+  when: java_install_type == 'installer'
 
 - name: Ensure Java install is done
   include_tasks: install/done.yml

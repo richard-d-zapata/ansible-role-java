@@ -1,6 +1,11 @@
 ---
+default_java_install_type: installer  # installer || (not yet) package_manager
+
 default_java_installers_path_on_target: /tmp
 default_java_binary_name: java
+default_java_subpath: /Contents/Home
+default_java_jre_subpath: /jre
+
 default_java_environment_file_path: "$HOME/.profile"
 
 default_java_destination_parent_paths:

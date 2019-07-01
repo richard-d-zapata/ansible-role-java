@@ -1,4 +1,6 @@
 ---
+default_java_install_type: package_manager  # installer || package_manager
+
 default_java_installers_path_on_target: /tmp
 default_java_binary_name: java
 default_java_environment_file_path: /etc/environment
@@ -6,3 +8,8 @@ default_java_environment_file_path: /etc/environment
 default_java_destination_parent_paths:
   amazon: /usr/lib/jvm
   redhat: /usr/lib/jvm
+  apt: /usr/lib/jvm
+
+default_java_binary_subpath:
+  legacy: jre/
+  modern:
