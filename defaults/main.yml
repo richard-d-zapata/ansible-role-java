@@ -9,7 +9,7 @@ java_vendor: amazon
 java_set_env_vars: true
 
 # TODO: Figure out how to scrape the latest Java version as the default
-java_version: "11.0.3.7.1"
+java_version: "11.0.4.11.1"
 
 java_installer_url_paths:
   amazon:
