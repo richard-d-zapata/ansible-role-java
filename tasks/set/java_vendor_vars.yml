@@ -7,5 +7,6 @@
 - name: Set java_installer_url_path from defaults
   set_fact:
     java_installer_url_path: "\
-      {{ java_installer_url_paths[java_vendor][java_version_java_feature_string] }}"
+      {{ java_installer_url_paths[java_vendor][java_version_java_feature_string] }}\
+      /{{ java_version_full_string }}"
   when: java_installer_url_path is not defined
