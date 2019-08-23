@@ -31,3 +31,4 @@
   set_fact:
     java_destination_dirname: "java-{{ java_destination_version_string }}-\
       amazon-corretto"
+  when: java_destination_dirname is not defined

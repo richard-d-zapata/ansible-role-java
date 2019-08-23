@@ -3,6 +3,10 @@
   include_tasks: "{{ ansible_facts.os_family }}/java_installer_vars.yml"
   when: ansible_facts.os_family in ['Windows','Darwin','Debian','RedHat']
 
+- name: INFO - java_destination_dirname
+  debug:
+    var: java_destination_dirname
+
 - name: INFO - java_installer_filename
   debug:
     var: java_installer_filename

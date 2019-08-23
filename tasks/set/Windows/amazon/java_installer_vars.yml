@@ -35,3 +35,4 @@
 - name: Set java_destination_dirname (Windows - Amazon)
   set_fact:
     java_destination_dirname: "jdk{{ java_destination_version_string }}"
+  when: java_destination_dirname is not defined

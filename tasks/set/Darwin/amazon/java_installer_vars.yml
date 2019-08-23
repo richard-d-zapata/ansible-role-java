@@ -40,3 +40,4 @@
   set_fact:
     java_destination_dirname: "amazon-corretto-\
       {{ java_destination_version_string }}.jdk"
+  when: java_destination_dirname is not defined
