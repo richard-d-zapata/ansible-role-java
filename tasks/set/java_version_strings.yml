@@ -8,14 +8,23 @@
 # Note: This format is also being used for older Java versions, even though
 #       it does not match the old standard.  i.e. 1.8.0_202 -> 8.202
 
-- name: Parse java_version
+- name: Set java_version_normalized
+  set_fact:
+    java_version_normalized: "{{ (java_version|string).split('-')[0] }}"
+
+# Included just for you Amazon and your "-<number>" additions
+- name: Set java_version_extra
+  set_fact:
+    java_version_extra: "-{{ (java_version|string).split('-')[1] }}"
+
+- name: Parse java_version_normalized
   set_fact:
     java_version_parts:
-      java_feature: "{{ (java_version|string).split('.')[0] }}"
-      java_interim: "{{ (java_version|string).split('.')[1] | default(omit) }}"
-      java_update: "{{ (java_version|string).split('.')[2] | default(omit) }}"
-      java_patch: "{{ (java_version|string).split('.')[3] | default(omit) }}"
-      java_build: "{{ (java_version|string).split('.')[4] | default(omit) }}"
+      java_feature: "{{ (java_version_normalized|string).split('.')[0] }}"
+      java_interim: "{{ (java_version_normalized|string).split('.')[1] | default(omit) }}"
+      java_update: "{{ (java_version_normalized|string).split('.')[2] | default(omit) }}"
+      java_patch: "{{ (java_version_normalized|string).split('.')[3] | default(omit) }}"
+      java_build: "{{ (java_version_normalized|string).split('.')[4] | default(omit) }}"
 
 - debug:
     var: java_version_parts

@@ -1,7 +1,7 @@
 ---
 - name: Set java_installer_version_string (Windows - Amazon)
   set_fact:
-    java_installer_version_string: "{{ java_version_full_string }}"
+    java_installer_version_string: "{{ java_version_full_string }}{{ java_version_extra | default('') }}"
 
 - name: Set java_destination_version_string (Windows - Amazon)
   set_fact:
@@ -14,15 +14,15 @@
 
 - name: Set java_installer_prefix (Windows - Amazon)
   set_fact:
-    java_installer_prefix: "amazon-corretto-"
+    java_installer_prefix: 'amazon-corretto-'
 
 - name: Set java_installer_suffix (Windows - Amazon)
   set_fact:
-    java_installer_suffix: "-windows-x64"
+    java_installer_suffix: '-windows-x64'
 
 - name: Set java_installer_ext (Windows - Amazon)
   set_fact:
-    java_installer_ext: ".msi"
+    java_installer_ext: '.msi'
 
 - name: Set java_installer_filename (Windows - Amazon)
   set_fact:

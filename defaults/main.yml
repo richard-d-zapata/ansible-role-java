@@ -3,18 +3,23 @@
 # The processing of these values to function more like defaults is done
 # as described at https://www.samdarwin.com/ansible-default-vars/
 
-# TODO: Determine if JRE only support is desired
 java_type: jdk
 java_vendor: amazon
 java_set_env_vars: true
 
-# TODO: Figure out how to scrape the latest Java version as the default
-java_version: "11.0.4.11.1"
+java_version: |-
+  {%- if ansible_facts.os_family in ['Windows'] %}
+  11.0.6.10.1-1
+  {%- elif ansible_facts.os_family in ['Darwin'] %}
+  11.0.6.10.1-2
+  {%- else %}
+  11.0.6.10.1
+  {%- endif %}
 
 java_installer_url_paths:
   amazon:
-    "8": https://d3pxv6yz143wms.cloudfront.net
-    "11": https://d3pxv6yz143wms.cloudfront.net
+    "8": https://corretto.aws/downloads/resources
+    "11": https://corretto.aws/downloads/resources
   redhat:
     "8": ERROR - you must supply your own installer or URL!
     "11": ERROR - you must supply your own installer or URL!

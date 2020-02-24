@@ -1,7 +1,7 @@
 ---
 - name: Set java_installer_version_string (Darwin - Amazon)
   set_fact:
-    java_installer_version_string: "{{ java_version_full_string }}"
+    java_installer_version_string: "{{ java_version_full_string }}{{ java_version_extra | default('') }}"
 
 - name: Set java_destination_version_string (Darwin - Amazon)
   set_fact:
@@ -40,4 +40,4 @@
   set_fact:
     java_destination_dirname: "amazon-corretto-\
       {{ java_destination_version_string }}.jdk"
-  when: java_destination_dirname is not defined
+  when: java_destination_dirname is not defined or java_destination_dirname == ''
