@@ -16,6 +16,7 @@
 - name: Set java_version_extra
   set_fact:
     java_version_extra: "-{{ (java_version|string).split('-')[1] }}"
+  when: (java_version|string).split('-')[1] is defined
 
 - name: Parse java_version_normalized
   set_fact:
