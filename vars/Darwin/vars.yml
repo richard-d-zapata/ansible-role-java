@@ -1,5 +1,6 @@
 ---
 default_java_install_type: installer  # installer || (not yet) package_manager
+default_java_vendor: amazon
 
 default_java_installers_path_on_target: /tmp
 default_java_binary_name: java

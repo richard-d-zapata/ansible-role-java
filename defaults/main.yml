@@ -4,22 +4,22 @@
 # as described at https://www.samdarwin.com/ansible-default-vars/
 
 java_type: jdk
-java_vendor: amazon
 java_set_env_vars: true
 
-java_version: |-
-  {%- if ansible_facts.os_family in ['Windows'] %}
-  11.0.6.10.1-1
-  {%- elif ansible_facts.os_family in ['Darwin'] %}
-  11.0.6.10.1-2
-  {%- else %}
-  11.0.6.10.1
-  {%- endif %}
+# Latest available Java 11 as of 2021-02-01
+# URL: https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
+java_version: '11.0.10.9.1'
 
 java_installer_url_paths:
+  adopt:
+    "8": https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download
+    "11": https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download
   amazon:
     "8": https://corretto.aws/downloads/resources
     "11": https://corretto.aws/downloads/resources
   redhat:
+    "8": ERROR - you must supply your own installer or URL!
+    "11": ERROR - you must supply your own installer or URL!
+  oracle:
     "8": ERROR - you must supply your own installer or URL!
     "11": ERROR - you must supply your own installer or URL!

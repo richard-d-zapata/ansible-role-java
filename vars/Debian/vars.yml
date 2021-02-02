@@ -1,5 +1,6 @@
 ---
 default_java_install_type: package_manager  # installer || package_manager
+default_java_vendor: apt
 
 default_java_installers_path_on_target: /tmp
 default_java_binary_name: java

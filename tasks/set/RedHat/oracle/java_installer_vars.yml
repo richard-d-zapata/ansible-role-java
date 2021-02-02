@@ -1,0 +1,37 @@
+---
+- name: Set java_installer_prefix (RedHat - Oracle)
+  set_fact:
+    java_installer_suffix: "jdk-"
+
+- name: Set java_installer_suffix (RedHat - Oracle)
+  set_fact:
+    java_installer_suffix: "_linux-x64_bin"
+
+- name: Set java_installer_ext (RedHat - Oracle)
+  set_fact:
+    java_installer_ext: ".rpm"
+
+- name: Set java_version_style (RedHat - Oracle)
+  set_fact:
+    java_version_style: |-
+      {%- if java_vendor == 'oracle' and java_version_parts['java_feature']|int < 9 %}
+      legacy
+      {%- else %}
+      modern
+      {%- endif %}
+
+- name: Set legacy/modern Java installer variables (RedHat - Oracle)
+  include_tasks: "java_installer_vars/{{ java_version_style }}.yml"
+
+- name: Set java_installer_filename (RedHat - Oracle)
+  set_fact:
+    java_installer_filename: "\
+      {{ java_installer_prefix }}\
+      {{ java_installer_version_string }}\
+      {{ java_installer_suffix }}\
+      {{ java_installer_ext }}"
+
+- name: Set java_destination_dirname (RedHat - Oracle)
+  set_fact:
+    java_destination_dirname: "jdk-{{ java_destination_version_string }}"
+  when: java_destination_dirname is not defined

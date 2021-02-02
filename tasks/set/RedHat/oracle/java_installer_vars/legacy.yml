@@ -1,0 +1,12 @@
+---
+- name: Set java_installer_version_string (RedHat - Oracle - legacy)
+  set_fact:
+    java_installer_version_string: "{{ java_version_medium_string }}"
+
+- name: Set java_destination_version_string (RedHat - Oracle - legacy)
+  set_fact:
+    java_destination_version_string: "{{ java_version_medium_string }}"
+
+- name: Set java_installer_prefix (RedHat - Oracle - legacy)
+  set_fact:
+    java_installer_prefix: "jdk-"
