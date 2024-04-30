@@ -6,20 +6,24 @@
 java_type: jdk
 java_set_env_vars: true
 
-# Latest available Java 11 as of 2021-02-01
-# URL: https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
-java_version: '11.0.10.9.1'
+# Latest available Java 21 as of 2024-04-29
+# URL: https://www.oracle.com/java/technologies/downloads/#java21
+java_version: '21.0.3.9.1'
 
 java_installer_url_paths:
   adopt:
     "8": https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download
     "11": https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download
+    "21": https://github.com/AdoptOpenJDK/openjdk21-binaries/releases/download
   amazon:
     "8": https://corretto.aws/downloads/resources
     "11": https://corretto.aws/downloads/resources
+    "21": https://corretto.aws/downloads/resources
   redhat:
     "8": ERROR - you must supply your own installer or URL!
     "11": ERROR - you must supply your own installer or URL!
+    "21": ERROR - you must supply your own installer or URL!
   oracle:
     "8": ERROR - you must supply your own installer or URL!
     "11": ERROR - you must supply your own installer or URL!
+    "21": ERROR - you must supply your own installer or URL!
